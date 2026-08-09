@@ -150,7 +150,16 @@ def process_note(data: NoteIn, user = Depends(fake_login)):
 
     log_action(user["id"], action="processed_note", note_hash=hash(note))
 
-    return {"claim_id": claim_id, "gdrg": gdrg_calc, "nhia_audit": audit_flags, "safety": safety}
+    return {
+        "claim_id": claim_id,
+        "diagnosis": diagnosis,
+        "meds": meds,
+        "discharge": discharge,
+        "icd_codes": icd_codes,
+        "gdrg": gdrg_calc,
+        "nhia_audit": audit_flags,
+        "safety": safety,
+    }
 
 @app.get("/export")
 def export_claims():
