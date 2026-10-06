@@ -233,7 +233,7 @@ const Page = () => {
       addLog("Sending data to backend /process endpoint");
       setStageStatus("analysis", "active");
 
-      const payload = await processClaim({ note: trimmed, days, addons });
+      const payload = await processClaim({ note: trimmed, days, addons, user_id: "demo_clinician", });
       setClaimResult(payload);
       addLog("Backend processing completed successfully");
       addLog(`Claim created: ${payload.claim_id}`);

@@ -28,7 +28,11 @@ except Exception:
     pass
 
 app = FastAPI(title=f"CuraMeds - {HOSPITAL_NAME}")
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Dynamically find the absolute path
+base_dir = os.path.dirname(os.path.abspath(__file__))
+static_dir = os.path.join(base_dir, "static") # or "app/static" depending on where it lives
+
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
 templates = Jinja2Templates(directory="templates")
 """
 Replaces in-memory CLAIMS_BATCH with persistent storage via PostgreSQL.
@@ -85,9 +89,11 @@ def process_note(data: NoteIn, user = Depends(fake_login)):
         'source_system': 'curameds',
         'source_reference': None
     }
-    created_by = None
-    claim_id = ClaimRepository.create_claim(claim_payload, created_by=created_by)
-
+    created_by = data.user_id
+    claim_id = ClaimRepository.create_claim(
+        claim_payload,
+        created_by=created_by
+)
     # persist diagnoses, medications, icd mappings and audit flags as available
     # adapt existing outputs into DB-friendly shapes
     diag_rows = []

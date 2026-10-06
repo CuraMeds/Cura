@@ -2,6 +2,7 @@ export interface ProcessRequest {
   note: string;
   days: number;
   addons: string[];
+  user_id: string;
 }
 
 export interface IcdCodeSuggestion {

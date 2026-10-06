@@ -3,6 +3,9 @@ import uuid
 from contextlib import contextmanager
 import psycopg2
 from psycopg2 import pool
+from dotenv import load_dotenv
+
+load_dotenv()  # Load environment variables from .env file
 
 DATABASE_URL = os.getenv('DATABASE_URL')
 
